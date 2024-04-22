@@ -1,7 +1,8 @@
 import RestaurantCard from "./RestaurantCard.js";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Shimmer from "./Shimmer.js";
-
+import useOnlineStatus from "../utils/useOnlineStatus.js";
 
 const Body = () => {
 
@@ -10,6 +11,7 @@ const Body = () => {
        const [listOfRestaurants, setListOfRestaurants] = useState([]);
        const [filteredRestaurants, setFilteredRestaurants] = useState([]);
        const [searchText, setSearchText] = useState("");
+       const onlineStatus = useOnlineStatus();
 
        useEffect(() => {
         fetchData();
@@ -29,6 +31,8 @@ const Body = () => {
       }
 
       // This is known as a conditional r endering
+
+    if(onlineStatus === false) return <h1>Looks like your are offline...</h1>
 
     if(listOfRestaurants.length === 0)return <Shimmer/>
 
@@ -65,7 +69,7 @@ const Body = () => {
 
             <div className="res-container">
                 {
-                    filteredRestaurants.map(restaurant => <RestaurantCard key={restaurant.info.id} resdata={restaurant}/>)    
+                    filteredRestaurants.map(restaurant => <Link to={"/restaurant/" + restaurant.info.id} key={restaurant.info.id}><RestaurantCard  resdata={restaurant}/></Link>)    
                 }
             </div>
         </div>
