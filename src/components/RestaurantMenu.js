@@ -1,11 +1,18 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Shimmer from "./Shimmer";
+import { useDispatch } from "react-redux";
+import { addItem } from "../utils/cartSlice";
 
 const RestaurantMenu = () => {
 
     const [resInfo, setResInfo] = useState([]);
     const {resId} = useParams();
+    const dispatch = useDispatch();
+
+    const handleAddItem = (cuisines) => {
+        dispatch(addItem(cuisines));
+    }
 
     useEffect(() => {
         fetchMenu();
@@ -31,6 +38,7 @@ const RestaurantMenu = () => {
             <h1>{name}</h1>
             <h2>{avgRating } Stars - {costForTwoMessage}</h2>
             <h2>{cuisines}</h2>
+            <button className="m-2 p-1 border border-black rounded-sm" onClick={()=> handleAddItem(cuisines)}>Add Item</button>
             
            
     
